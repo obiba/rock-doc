@@ -32,7 +32,7 @@ Both Java and R must be installed on the same host.
 Install
 -------
 
-Rock is distributed as a Debian/RPM package and as a zip file. The resulting installation has default configuration that makes Rock ready to be used (as soon as R is available). Once installation is done, see :doc:`configuration` instructions.
+Rock is distributed as a Debian/RPM package, as a zip file and as a Docker image. The resulting installation has default configuration that makes Rock ready to be used (as soon as R is available). Once installation is done, see :doc:`configuration` instructions.
 
 Debian Package Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
