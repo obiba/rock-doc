@@ -130,7 +130,7 @@ Remove
 
 .. http:delete:: /rserver/packages?name=(package_name)
 
-  Update all CRAN R packages.
+  Remove specified R packages.
 
   This entry point requires :ref:`rest-auth` of a user with ``administrator`` or ``manager`` role.
 
@@ -161,7 +161,7 @@ Install
 
 .. http:post:: /rserver/packages?name=(package_name)
 
-  Install a R package from CRAN, GitHub or Biconductor.
+  Install a R package from CRAN, `GitHub <https://github.com>`_ or `Bioconductor <https://bioconductor.org/>`_.
 
   This entry point requires :ref:`rest-auth` of a user with ``administrator`` or ``manager`` role.
 
