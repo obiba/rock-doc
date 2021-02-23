@@ -72,10 +72,12 @@ Property                  Description
 ``security.users``        List of users, with attributes ``id`` (user name), ``secret`` (user password) and ``roles`` (comma separated list of role names: ``administrator``, ``manager`` or ``user``).
 ========================= ==================
 
+.. _config-apparmor:
+
 AppArmor Configuration
 ----------------------
 
-Rock can apply a `RAppArmor <https://cran.r-project.org/package=RAppArmor>`_ on R session creation. Requires RAppArmor to be properly installed and configured.
+Rock can apply an `RAppArmor <https://cran.r-project.org/package=RAppArmor>`_ profile on R session creation. Requires RAppArmor to be properly installed and configured.
 
 =============================== ==================
 Property                        Description

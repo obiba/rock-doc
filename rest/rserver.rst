@@ -10,7 +10,7 @@ Status
 
    Get the server detailed status, including R server and host's system information.
 
-   This entry point requires authentication of a user with ``administrator`` or ``manager`` role.
+   This entry point requires :ref:`rest-auth` of a user with ``administrator`` or ``manager`` role.
 
    **Example requests**
 
@@ -75,7 +75,7 @@ Start
 
   Start the R server. Ignored if the R server is already running.
 
-  This entry point requires authentication of a user with ``administrator`` or ``manager`` role.
+  This entry point requires :ref:`rest-auth` of a user with ``administrator`` or ``manager`` role.
 
   **Example requests**
 
@@ -100,7 +100,7 @@ Stop
 
   Stop the R server. Ignored if the R server is not running.
 
-  This entry point requires authentication of a user with ``administrator`` or ``manager`` role.
+  This entry point requires :ref:`rest-auth` of a user with ``administrator`` or ``manager`` role.
 
   **Example requests**
 
