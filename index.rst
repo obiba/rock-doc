@@ -32,6 +32,7 @@ Rock is the `OBiBa <http://obiba.org/>`_'s R server which intends to be easy to 
    rest/index
    rest/service
    rest/rserver
+   rest/packages
 
 Partners and Funders
 ====================

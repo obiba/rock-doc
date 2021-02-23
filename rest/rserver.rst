@@ -66,8 +66,8 @@ Status
    :reqheader Authorization: As described in the :ref:`rest-auth` section
    :reqheader Accept: ``*/*``
    :resheader Content-Type: ``application/json``
-   :statuscode 200: Server is alive and functional
-   :statuscode 500: Server is alive but not functional
+   :statuscode 200: Server is alive and functional.
+   :statuscode 500: Server is alive but not functional.
 
 Start
 -----
