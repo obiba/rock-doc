@@ -159,7 +159,7 @@ Remove
 Install
 -------
 
-.. http:post:: /rserver/packages?name=(package_name)
+.. http:post:: /rserver/packages?name=(package_name)&manager=(repo_name)
 
   Install a R package from CRAN, `GitHub <https://github.com>`_ or `Bioconductor <https://bioconductor.org/>`_.
 
@@ -188,7 +188,6 @@ Install
   :reqheader Authorization: As described in the :ref:`rest-auth` section
   :statuscode 204: Operation was successful.
   :statuscode 500: An error occurred, when R server is not running for instance.
-
 
 DataSHIELD
 ----------
