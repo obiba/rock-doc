@@ -63,6 +63,7 @@ Status
    :>json integer system.cores: Number of host's system cores. If the number of cores cannot be retrieved (when R server is stopped for instance), ``-1`` is returned.
    :>json integer system.freeMemory: Available host's system memory in KB. If the available memory cannot be retrieved (when R server is stopped for instance), ``-1`` is returned.
 
+   :reqheader Authorization: As described in the :ref:`rest-auth` section
    :reqheader Accept: ``*/*``
    :resheader Content-Type: ``application/json``
    :statuscode 200: Server is alive and functional
@@ -93,6 +94,8 @@ Start
      conn <- rockr.connect(username="administrator", password="password", url = "https://rock-demo.obiba.org")
      rockr.start(conn)
 
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+
 Stop
 ----
 
@@ -117,3 +120,36 @@ Stop
      library(rockr)
      conn <- rockr.connect(username="administrator", password="password", url = "https://rock-demo.obiba.org")
      rockr.stop(conn)
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+
+Log
+---
+
+.. http:get:: /rserver/_log
+
+  Download the last lines of the R server console output. Can be useful when debugging R problems.
+
+  This entry point requires :ref:`rest-auth` of a user with ``administrator`` or ``manager`` role.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+     curl --user administrator:password -H "Accept: text/plain" https://rock-demo.obiba.org/rserver/_log?limit=100
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+     library(rockr)
+     conn <- rockr.connect(username="administrator", password="password", url = "https://rock-demo.obiba.org")
+     rockr.log(conn, 100)
+
+  :query integer limit: The maximum number of lines to tail from the R server log. Default is ``1000``.
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :reqheader Accept: ``text/plain``
+  :resheader Content-Type: ``text/plain``
