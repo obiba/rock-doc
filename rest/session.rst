@@ -86,8 +86,103 @@ Remove
 Assign
 ------
 
+.. http:post:: /r/session/(string:id)/_assign?s=(string:symbol)
+
+  Assign an R expression to `symbol`. The R expression is the body of the request. The R expression can be the string representation of the data or a function call.
+
+  This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+     curl --user user:password -H "Content-Type: application/x-rscript" --data "getwd()" https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/_assign?s=x
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+     library(rockr)
+     conn <- rockr.connect(username="user", password="password", url = "https://rock-demo.obiba.org")
+     rockr.open(conn)
+     rockr.assign(conn, "x", quote(getwd()))
+     rockr.assign(conn, "n", 123)
+     rockr.assign(conn, "str", "abc")
+
+  :>json string s: The R symbol name to assign.
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :reqheader Content-Type: ``application/x-rscript``
+  :statuscode 200: Operation was completed.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role or permission for this operation.
+  :statuscode 404: Session could not be found.
+  :statuscode 500: An error occurred.
+
 Evaluate
 --------
+
+.. http:post:: /r/session/(string:id)/_eval
+
+  Evaluate an R expression. The R expression is the body of the request. The R expression can be the string representation of the data or a function call. The returned value can be a primitive type or JSON array/object. In the latter case, make sure that the R expression call returns a value that can be serialized using `jsonlite::toJSON() <https://www.rdocumentation.org/packages/jsonlite/versions/1.7.2/topics/toJSON%2C%20fromJSON>`_. If `toJSON()` fails, instead of raising an error, Rock will fallback to `jsonlite::serializeJSON() <https://www.rdocumentation.org/packages/jsonlite/versions/1.7.2/topics/serializeJSON>`_ which is more robust (and also quite verbose).
+
+  This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+     curl --user user:password -H "Content-Type: application/x-rscript" --data "getwd()" https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/_eval
+     # note: R.version value cannot be stringified in JSON as-is
+     curl --user user:password -H "Content-Type: application/x-rscript" --data "as.list(unlist(R.version))" https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/_eval
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+     library(rockr)
+     conn <- rockr.connect(username="user", password="password", url = "https://rock-demo.obiba.org")
+     rockr.open(conn)
+     rockr.eval(conn, quote(R.version))
+
+  **Example response**
+
+  .. sourcecode:: http
+
+     HTTP/1.1 200 OK
+     Content-Type: application/json
+
+     {
+       "platform": "x86_64-pc-linux-gnu",
+       "arch": "x86_64",
+       "os": "linux-gnu",
+       "system": "x86_64, linux-gnu",
+       "status": "",
+       "major": "4",
+       "minor": "0.4",
+       "year": "2021",
+       "month": "02",
+       "day": "15",
+       "svn rev": "80002",
+       "language": "R",
+       "version.string": "R version 4.0.4 (2021-02-15)",
+       "nickname": "Lost Library Book"
+     }
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :reqheader Content-Type: ``application/x-rscript``
+  :reqheader Accept: ``*/*``
+  :resheader Content-Type: ``application/json``
+  :statuscode 200: Operation was completed.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role or permission for this operation.
+  :statuscode 404: Session could not be found.
+  :statuscode 500: An error occurred.
+
 
 Files
 -----

@@ -19,9 +19,6 @@ The Rock REST API has different scopes:
 
   * R commands management
 
-
-
-
 .. _rest-auth:
 
 Authentication
