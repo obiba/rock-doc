@@ -1,5 +1,5 @@
-R Packages Resources
-====================
+R Packages
+==========
 
 These resources are for managing the R packages installed in the R server.
 
@@ -94,6 +94,8 @@ List
    :reqheader Accept: ``*/*``
    :resheader Content-Type: ``application/json``
    :statuscode 200: Server is alive and functional.
+   :statuscode 401: User is not authenticated.
+   :statuscode 403: User does not have the appropriate role for this operation.
    :statuscode 500: Package list could not be retrieved, when R server is not running for instance.
 
 Update
@@ -123,12 +125,14 @@ Update
 
  :reqheader Authorization: As described in the :ref:`rest-auth` section
  :statuscode 200: Operation was successful.
+ :statuscode 401: User is not authenticated.
+ :statuscode 403: User does not have the appropriate role for this operation.
  :statuscode 500: An error occurred, when R server is not running for instance.
 
 Remove
 ------
 
-.. http:delete:: /rserver/packages?name=(package_name)
+.. http:delete:: /rserver/packages?name=(string:package_names)
 
   Remove specified R packages.
 
@@ -140,7 +144,7 @@ Remove
 
   .. sourcecode:: shell
 
-     curl --user administrator:password -X PUT https://rock-demo.obiba.org/rserver/packages?name=annotate&name=rlang
+     curl --user administrator:password -X DELETE https://rock-demo.obiba.org/rserver/packages?name=annotate,rlang
 
   Using R (`rockr <https://github.com/obiba/rockr>`_)
 
@@ -150,16 +154,18 @@ Remove
      conn <- rockr.connect(username="administrator", password="password", url = "https://rock-demo.obiba.org")
      rockr.packages_rm(conn, c("annotate", "rlang"))
 
-  :query string name: One or more R package names to remove.
+  :query string name: One or more R package names to remove, comma separated.
 
   :reqheader Authorization: As described in the :ref:`rest-auth` section
-  :statuscode 204: Operation was successful.
+  :statuscode 204: Operation was completed. It could have failed silently.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role for this operation.
   :statuscode 500: An error occurred, when R server is not running for instance.
 
 Install
 -------
 
-.. http:post:: /rserver/packages?name=(package_name)&manager=(repo_name)
+.. http:post:: /rserver/packages?name=(string:package_name)[&manager=(string:repo_name)][&ref=(string:ref_id)]
 
   Install a R package from CRAN, `GitHub <https://github.com>`_ or `Bioconductor <https://bioconductor.org/>`_.
 
@@ -187,6 +193,8 @@ Install
 
   :reqheader Authorization: As described in the :ref:`rest-auth` section
   :statuscode 204: Operation was successful.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role for this operation.
   :statuscode 500: An error occurred, when R server is not running for instance.
 
 DataSHIELD
@@ -269,12 +277,14 @@ DataSHIELD
       }
 
 
-   :>json strings AggregateMethods: Array of aggregation function names.
-   :>json strings AssignMethods: Array of assign function names.
+   :>json strings AggregateMethods: Array of aggregation function names or name mappings.
+   :>json strings AssignMethods: Array of assign function names or name mappings.
    :>json strings Options: Array of R options name and value.
 
    :reqheader Authorization: As described in the :ref:`rest-auth` section
    :reqheader Accept: ``*/*``
    :resheader Content-Type: ``application/json``
    :statuscode 200: Server is alive and functional.
+   :statuscode 401: User is not authenticated.
+   :statuscode 403: User does not have the appropriate role for this operation.
    :statuscode 500: Package list could not be retrieved, when R server is not running for instance.

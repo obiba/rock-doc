@@ -1,5 +1,5 @@
-Service Resources
-=================
+Service
+=======
 
 These resources are public and are mainly for service discovery operations (identification and availability checks).
 

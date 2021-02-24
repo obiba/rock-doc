@@ -1,5 +1,5 @@
-R Server Resources
-==================
+R Server
+========
 
 These resources are for managing the R server process running in the background: status, start and stop.
 
@@ -67,6 +67,8 @@ Status
    :reqheader Accept: ``*/*``
    :resheader Content-Type: ``application/json``
    :statuscode 200: Server is alive and functional.
+   :statuscode 401: User is not authenticated.
+   :statuscode 403: User does not have the appropriate role for this operation.
    :statuscode 500: Server is alive but not functional.
 
 Start
@@ -95,13 +97,17 @@ Start
      rockr.start(conn)
 
   :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :statuscode 200: Server is alive and functional.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role for this operation.
+  :statuscode 500: Server is alive but not functional.
 
 Stop
 ----
 
 .. http:delete:: /rserver
 
-  Stop the R server. Ignored if the R server is not running.
+  Stop the R server. Ignored if the R server is not running. Be aware that all R sessions will be terminated.
 
   This entry point requires :ref:`rest-auth` of a user with ``administrator`` or ``manager`` role.
 
@@ -122,11 +128,15 @@ Stop
      rockr.stop(conn)
 
   :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :statuscode 200: Server is alive and functional.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role for this operation.
+  :statuscode 500: Server is alive but not functional.
 
 Log
 ---
 
-.. http:get:: /rserver/_log
+.. http:get:: /rserver/_log?limit=(int:max_lines)
 
   Download the last lines of the R server console output. Can be useful when debugging R problems.
 
@@ -153,3 +163,7 @@ Log
   :reqheader Authorization: As described in the :ref:`rest-auth` section
   :reqheader Accept: ``text/plain``
   :resheader Content-Type: ``text/plain``
+  :statuscode 200: Server is alive and functional.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role for this operation.
+  :statuscode 500: Server is alive but not functional.
