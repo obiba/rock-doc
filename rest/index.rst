@@ -3,9 +3,24 @@ REST API Introduction
 
 The Rock REST API has different scopes:
 
-* Service discovery,
-* R server management (process and packages),
-* R sessions management and usage.
+* Service discovery
+
+* R server management
+
+  * Status/start/stop
+
+  * R packages management
+
+* R sessions management and usage
+
+  * R operations
+
+  * File management
+
+  * R commands management
+
+
+
 
 .. _rest-auth:
 

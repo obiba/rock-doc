@@ -1,7 +1,7 @@
 R Sessions
 ==========
 
-This resource manages the stateful R sessions living in the R server. Some operations may be limited depending on the user role.
+These resources manage the stateful R sessions living in the R server. Some operations may be limited depending on the user role.
 
 List
 ----

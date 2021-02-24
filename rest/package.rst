@@ -1,7 +1,7 @@
 R Package
 =========
 
-This resource applies to a single R package installed in the R server.
+These resources apply to a single R package installed in the R server.
 
 Description
 -----------
