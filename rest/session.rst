@@ -83,10 +83,12 @@ Remove
    :statuscode 404: Session could not be found.
    :statuscode 500: An error occurred.
 
+.. _assign:
+
 Assign
 ------
 
-.. http:post:: /r/session/(string:id)/_assign?s=(string:symbol)
+.. http:post:: /r/session/(string:id)/_assign?s=(string:symbol)[&async=(boolean:async)]
 
   Assign an R expression to `symbol`. The R expression is the body of the request. The R expression can be the string representation of the data or a function call.
 
@@ -111,7 +113,29 @@ Assign
      rockr.assign(conn, "n", 123)
      rockr.assign(conn, "str", "abc")
 
-  :>json string s: The R symbol name to assign.
+  **Example response**
+
+  When `async` parameter is ``true``, a `Command` is created and put in the execution queue.
+
+  .. sourcecode:: http
+
+    HTTP/1.1 201 Created
+    Location: https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/605fc0a4-4e41-40eb-bf40-89c2d3bb17fa-3
+
+    {
+      "id": "605fc0a4-4e41-40eb-bf40-89c2d3bb17fa-3",
+      "status": "IN_PROGRESS",
+      "finished": false,
+      "createdDate": "2021-02-24T17:38:14.929+00:00",
+      "startDate": "2021-02-24T17:38:14.929+00:00",
+      "endDate": "2021-02-24T17:38:14.930+00:00",
+      "withError": false,
+      "withResult": false,
+      "script": "base::assign('x', getwd())"
+    }
+
+  :query string s: The R symbol name to assign.
+  :query boolean async: Whether the R operation is to be put in a command queue for latter execution, in which case a `Command` object will be returned (see :ref:`commands`). Default is ``false``.
 
   :reqheader Authorization: As described in the :ref:`rest-auth` section
   :reqheader Content-Type: ``application/x-rscript``
@@ -121,10 +145,12 @@ Assign
   :statuscode 404: Session could not be found.
   :statuscode 500: An error occurred.
 
+.. _eval:
+
 Evaluate
 --------
 
-.. http:post:: /r/session/(string:id)/_eval
+.. http:post:: /r/session/(string:id)/_eval[?async=(boolean:async)]
 
   Evaluate an R expression. The R expression is the body of the request. The R expression can be the string representation of the data or a function call. The returned value can be a primitive type or JSON array/object. In the latter case, make sure that the R expression call returns a value that can be serialized using `jsonlite::toJSON() <https://www.rdocumentation.org/packages/jsonlite/versions/1.7.2/topics/toJSON%2C%20fromJSON>`_. If `toJSON()` fails, instead of raising an error, Rock will fallback to `jsonlite::serializeJSON() <https://www.rdocumentation.org/packages/jsonlite/versions/1.7.2/topics/serializeJSON>`_ which is more robust (and also quite verbose).
 
@@ -173,6 +199,8 @@ Evaluate
        "nickname": "Lost Library Book"
      }
 
+  :query boolean async: Whether the R operation is to be put in a command queue for latter execution, in which case a `Command` object will be returned (see :ref:`commands`) in place of the evaluation result. Default is ``false``.
+
   :reqheader Authorization: As described in the :ref:`rest-auth` section
   :reqheader Content-Type: ``application/x-rscript``
   :reqheader Accept: ``*/*``
@@ -183,7 +211,6 @@ Evaluate
   :statuscode 404: Session could not be found.
   :statuscode 500: An error occurred.
 
-
 Files
 -----
 
@@ -192,21 +219,218 @@ These resources are for exchanging files between the client and an R session's w
 Upload
 ~~~~~~
 
+.. http:post:: /r/session/(string:id)/_upload?[path=(string:path)][&overwrite=(boolean:overwrite)][&temp=(boolean:temp)]
+
+  Upload a file at `path`. If `path` is not specified, the uploaded file name will be used. Note that the `path` root folder is ever the R session original working directory or its temporary directory (if `temp` is ``true``). This means that any attempt to upload a file outside of the R session file scope will fail.
+
+  This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+    curl --user user:password -F "file=@some/local/file.ext" https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/_upload?overwrite=true
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+     library(rockr)
+     conn <- rockr.connect(username="user", password="password", url = "https://rock-demo.obiba.org")
+     rockr.open(conn)
+     rockr.file_upload(conn, source = "some/local/file.ext", overwrite = TRUE)
+
+  :query string path: The destination path relative to the root directory (defined by the `temp` parameter). Any subfolders will be created automatically. If this parameter is missing, the uploaded file name will be used.
+  :query boolean overwrite: Whether to overwrite the destination file if it already exists. Default is ``false``.
+  :query boolean temp: Whether the root directory is the temporary folder of the R session, otherwise it will be the original working directory. Default is ``false``.
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :reqheader Content-Type: ``multipart/form-data``
+  :statuscode 200: Operation was completed.
+  :statuscode 400: If destination file is a folder, exists and cannot be overridden or more generally if it is not valid (attempt to write a file outside of the R session root directory).
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role or permission for this operation.
+  :statuscode 404: Session could not be found.
+  :statuscode 500: An error occurred.
+
+
 Download
 ~~~~~~~~
+
+.. http:get:: /r/session/(string:id)/_download?path=(string:path)[&temp=(boolean:temp)]
+
+  Download a file located at `path` in the R session root directory. This root directory is ever the R session original working directory or its temporary directory (if `temp` is ``true``). This means that any attempt to download a file from outside of the R session file scope will fail.
+
+  This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/_upload?path=some%2Fremote%2Ffile.ext -o file.ext
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+    library(rockr)
+    conn <- rockr.connect(username="user", password="password", url = "https://rock-demo.obiba.org")
+    rockr.open(conn)
+    rockr.file_download(conn, source = "some/remote/file.ext", destination = "file.ext")
+
+  :query string path: The source path relative to the root directory (defined by the `temp` parameter).
+  :query boolean temp: Whether the root directory is the temporary folder of the R session, otherwise it will be the original working directory. Default is ``false``.
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :reqheader Accept: ``*/*``
+  :statuscode 200: Operation was completed.
+  :statuscode 400: If file does not exists, is a folder or more generally if it is not valid (attempt to access a file outside of the R session root directory).
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role or permission for this operation.
+  :statuscode 404: Session could not be found.
+  :statuscode 500: An error occurred.
+
+.. _commands:
 
 Commands
 --------
 
-These resources are for managing the R operations that are executed asynchronously in an R session.
+These resources are for managing the R operations that are executed asynchronously in an R session. See :ref:`assign` and :ref:`eval` requests that propose an `async` query parameter to put the R operation in the execution queue.
 
 List
 ~~~~
+
+.. http:get:: /r/session/(string:id)/commands
+
+  List the R commands that are either in the processing queue or in the result list.
+
+  This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+     curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/commands
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+    library(rockr)
+    conn <- rockr.connect(username="user", password="password", url = "https://rock-demo.obiba.org")
+    rockr.open(conn)
+    rockr.eval(conn, quote(R.version), async = TRUE)
+    rockr.assign(conn, "x", quote(getwd()), async = TRUE)
+    rockr.commands(conn)
+
+  **Example response**
+
+  When `async` parameter is ``true``, a `Command` is created and put in the execution queue.
+
+  .. sourcecode:: http
+
+    HTTP/1.1 200 OK
+
+    [
+      {
+        "id": "e7ae86b0-fde9-437b-958a-88feedd7d2d3-1",
+        "status": "COMPLETED",
+        "finished": true,
+        "createdDate": "2021-02-24T17:55:59.133+00:00",
+        "startDate": "2021-02-24T17:55:59.133+00:00",
+        "endDate": "2021-02-24T17:55:59.164+00:00",
+        "withError": false,
+        "withResult": true,
+        "script": "R.version"
+      },
+      {
+        "id": "e7ae86b0-fde9-437b-958a-88feedd7d2d3-2",
+        "status": "COMPLETED",
+        "finished": true,
+        "createdDate": "2021-02-24T17:57:03.129+00:00",
+        "startDate": "2021-02-24T17:57:03.130+00:00",
+        "endDate": "2021-02-24T17:57:03.131+00:00",
+        "withError": false,
+        "withResult": false,
+        "script": "base::assign('x', getwd())"
+      }
+    ]
+
+  :>jsonarr string id: Command unique ID.
+  :>jsonarr string status: The status is one of: ``PENDING`` (command is in the execution queue), ``IN_PROGRESS`` (command execution is in progress), ``COMPLETED`` (completion with success) or ``FAILED`` (completion with failure).
+  :>jsonarr boolean finished: Whether the command is completed (successfully or not).
+  :>jsonarr string createdDate: Date of command submission.
+  :>jsonarr string startDate: Date of the command execution start.
+  :>jsonarr string endDate: Date of the command execution completion.
+  :>jsonarr boolean withError: Whether failed completion has an error message.
+  :>jsonarr string error: Error message.
+  :>jsonarr boolean withResult: Whether completed command has a result. See :ref:`result-cmd`.
+  :>jsonarr string script: R script associated to the command.
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :reqheader Accept: ``*/*``
+  :resheader Content-Type: ``application/json``
+  :statuscode 200: Operation was completed.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role or permission for this operation.
+  :statuscode 404: Session could not be found.
+  :statuscode 500: An error occurred.
+
+
+.. _status-cmd:
+
+Status
+~~~~~~
 
 .. _remove-cmd:
 
 Remove
 ~~~~~~
 
+.. _result-cmd:
+
 Result
 ~~~~~~
+
+.. http:get:: /r/session/(string:id)/command/(string:cmd_id)/result[?rm=(boolean:remove)][&wait=(boolean:wait)]
+
+  Extract the result from a completed, successful, command having some result data.
+
+  This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/e7ae86b0-fde9-437b-958a-88feedd7d2d3-1/result?wait=true
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+    library(rockr)
+    conn <- rockr.connect(username="user", password="password", url = "https://rock-demo.obiba.org")
+    rockr.open(conn)
+    cmd <- rockr.eval(conn, quote(R.version), async = TRUE)
+    rockr.command_result(conn, cmd$id, wait = TRUE)
+
+  :query boolean rm: Remove the command from the result list after the result download. Default is ``true``.
+  :query boolean wait: Whether the command completion should be waited in a blocking way. Default is ``false``.
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :reqheader Accept: ``*/*``
+  :resheader Content-Type: ``application/json``
+  :statuscode 200: Operation was completed.
+  :statuscode 204: Empty response when command is not completed yet and `wait` parameter is ``false``.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role or permission for this operation.
+  :statuscode 404: Session or command could not be found.
+  :statuscode 500: An error occurred.
