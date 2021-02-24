@@ -1,5 +1,5 @@
-R Packages
-==========
+R Server Packages
+=================
 
 These resources are for managing the R packages installed in the R server.
 

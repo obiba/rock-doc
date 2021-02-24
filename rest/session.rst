@@ -331,15 +331,13 @@ List
 
   **Example response**
 
-  When `async` parameter is ``true``, a `Command` is created and put in the execution queue.
-
   .. sourcecode:: http
 
     HTTP/1.1 200 OK
 
     [
       {
-        "id": "e7ae86b0-fde9-437b-958a-88feedd7d2d3-1",
+        "id": "810cfda6-d0f5-472e-8796-0ce6905499d8-1",
         "status": "COMPLETED",
         "finished": true,
         "createdDate": "2021-02-24T17:55:59.133+00:00",
@@ -350,7 +348,7 @@ List
         "script": "R.version"
       },
       {
-        "id": "e7ae86b0-fde9-437b-958a-88feedd7d2d3-2",
+        "id": "810cfda6-d0f5-472e-8796-0ce6905499d8-2",
         "status": "COMPLETED",
         "finished": true,
         "createdDate": "2021-02-24T17:57:03.129+00:00",
@@ -382,16 +380,108 @@ List
   :statuscode 404: Session could not be found.
   :statuscode 500: An error occurred.
 
-
 .. _status-cmd:
 
 Status
 ~~~~~~
 
+.. http:get:: /r/session/(string:id)/command/(string:cmd_id)
+
+  Get the status of a command in its R session.
+
+  This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/810cfda6-d0f5-472e-8796-0ce6905499d8-1
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+    library(rockr)
+    conn <- rockr.connect(username="user", password="password", url = "https://rock-demo.obiba.org")
+    rockr.open(conn)
+    cmd <- rockr.eval(conn, quote(R.version), async = TRUE)
+    rockr.command(conn, cmd$id)
+
+  **Example response**
+
+  .. sourcecode:: http
+
+    HTTP/1.1 200 OK
+
+    {
+      "id": "810cfda6-d0f5-472e-8796-0ce6905499d8-1",
+      "status": "COMPLETED",
+      "finished": true,
+      "createdDate": "2021-02-24T17:55:59.133+00:00",
+      "startDate": "2021-02-24T17:55:59.133+00:00",
+      "endDate": "2021-02-24T17:55:59.164+00:00",
+      "withError": false,
+      "withResult": true,
+      "script": "R.version"
+    }
+
+  :>json string id: Command unique ID.
+  :>json string status: The status is one of: ``PENDING`` (command is in the execution queue), ``IN_PROGRESS`` (command execution is in progress), ``COMPLETED`` (completion with success) or ``FAILED`` (completion with failure).
+  :>json boolean finished: Whether the command is completed (successfully or not).
+  :>json string createdDate: Date of command submission.
+  :>json string startDate: Date of the command execution start.
+  :>json string endDate: Date of the command execution completion.
+  :>json boolean withError: Whether failed completion has an error message.
+  :>json string error: Error message.
+  :>json boolean withResult: Whether completed command has a result. See :ref:`result-cmd`.
+  :>json string script: R script associated to the command.
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :reqheader Accept: ``*/*``
+  :resheader Content-Type: ``application/json``
+  :statuscode 200: Operation was completed.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role or permission for this operation.
+  :statuscode 404: Session or command could not be found.
+  :statuscode 500: An error occurred.
+
 .. _remove-cmd:
 
 Remove
 ~~~~~~
+
+.. http:delete:: /r/session/(string:id)/command/(string:cmd_id)
+
+  Remove a command, before or after it has been executed.
+
+  This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
+
+  **Example requests**
+
+  Using cURL
+
+  .. sourcecode:: shell
+
+    curl --user user:password -X DELETE https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/810cfda6-d0f5-472e-8796-0ce6905499d8-1
+
+  Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+  .. sourcecode:: r
+
+    library(rockr)
+    conn <- rockr.connect(username="user", password="password", url = "https://rock-demo.obiba.org")
+    rockr.open(conn)
+    cmd <- rockr.eval(conn, quote(R.version), async = TRUE)
+    rockr.command_rm(conn, cmd$id)
+
+  :reqheader Authorization: As described in the :ref:`rest-auth` section
+  :statuscode 204: Operation was completed.
+  :statuscode 401: User is not authenticated.
+  :statuscode 403: User does not have the appropriate role or permission for this operation.
+  :statuscode 404: Session or command could not be found.
+  :statuscode 500: An error occurred.
 
 .. _result-cmd:
 
@@ -410,7 +500,7 @@ Result
 
   .. sourcecode:: shell
 
-    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/e7ae86b0-fde9-437b-958a-88feedd7d2d3-1/result?wait=true
+    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/810cfda6-d0f5-472e-8796-0ce6905499d8-1/result?wait=true
 
   Using R (`rockr <https://github.com/obiba/rockr>`_)
 

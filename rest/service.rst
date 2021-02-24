@@ -12,13 +12,13 @@ Information
 
    This entry point does not require any authentication.
 
-   **Example request**:
+   **Example request**
 
    .. sourcecode:: shell
 
       curl https://rock-demo.obiba.org/_info
 
-   **Example response**:
+   **Example response**
 
    .. sourcecode:: http
 
@@ -47,13 +47,13 @@ Check
 
   This entry point does not require any authentication.
 
-  **Example request**:
+  **Example request**
 
   .. sourcecode:: shell
 
      curl https://rock-demo.obiba.org/_check
 
-  **Example response**:
+  **Example response**
 
   .. sourcecode:: http
 

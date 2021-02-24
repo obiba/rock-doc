@@ -1,5 +1,5 @@
-R Package
-=========
+R Server Package
+================
 
 These resources apply to a single R package installed in the R server.
 
