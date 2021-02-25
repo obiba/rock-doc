@@ -1,3 +1,5 @@
+.. _session-rest:
+
 R Session
 =========
 
@@ -55,7 +57,7 @@ Remove
 
 .. http:delete:: /r/session/(string:id)
 
-   Terminate the R session.
+   Terminate the R session, free memory and file system usage.
 
    This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` or ``manager`` role will be able to remove other users session. Regular users can only remove own R session.
 
@@ -454,7 +456,7 @@ Remove
 
 .. http:delete:: /r/session/(string:id)/command/(string:cmd_id)
 
-  Remove a command, before or after it has been executed.
+  Remove a command, before or after it has been executed. Note that it will not interrupt a running execution.
 
   This entry point requires :ref:`rest-auth` of a user. Users with ``administrator`` role will be able to use other users session. Regular users can only use own R session.
 

@@ -44,3 +44,10 @@ Role               Description
 ``manager``        Can only manage the R server: R process and R packages. Creating and using R sessions is not permitted.
 ``user``           Can only create and use its own R sessions. R operations may be limited by the :ref:`config-apparmor`.
 ================== ===============
+
+Clients
+-------
+
+Usage examples provided are based on `cURL <https://curl.se/>`_, a command line client, and `rockr <https://github.com/obiba/rockr>`_ a R package. This latter uses the described API slightly differently, as transferred objects are binary serialized R objects instead of JSON ones.
+
+Based on web standards (HTTP, JSON) this API can be used from any programming languages: `Opal <http://www.obiba.org/pages/products/opal/>`_ for instance is a Java application using the Rock services.

@@ -1,7 +1,7 @@
 Installation
 ============
 
-Rock is a stand-alone `Java <https://www.java.com>`_ server application. The R computation engine is handled by `Rserve <http://www.rforge.net/Rserve//>`_ and therefore requires a working R environment.
+Rock is a stand-alone `Java <https://www.java.com>`_ server application. The R computation engine is handled by `Rserve <http://www.rforge.net/Rserve/>`_ and therefore requires a working R environment.
 
 Requirements
 ------------

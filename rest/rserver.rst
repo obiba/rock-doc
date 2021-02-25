@@ -1,3 +1,5 @@
+.. _rserver-rest:
+
 R Server
 ========
 

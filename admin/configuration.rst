@@ -26,6 +26,8 @@ Property                  Description
 ``node.tags``             Comma separated tag names, used to build clusters. Default tag list is "default".
 ========================= ==================
 
+.. _consul-config:
+
 Consul Configuration
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -38,6 +40,8 @@ Property                  Description
 ``consul.token``          Consul registration token (highly recommended in production)
 ``consul.interval``       Rock service interval check in seconds.
 ========================= ==================
+
+.. _opal-config:
 
 Opal Configuration
 ~~~~~~~~~~~~~~~~~~

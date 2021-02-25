@@ -20,6 +20,14 @@ List
 
       curl --user administrator:password https://rock-demo.obiba.org/r/sessions
 
+   Using R (`rockr <https://github.com/obiba/rockr>`_)
+
+   .. sourcecode:: r
+
+      library(rockr)
+      conn <- rockr.connect(username="administrator", password="password", url = "https://rock-demo.obiba.org")
+      rockr.sessions(conn)
+
    **Example response**
 
    .. sourcecode:: http
