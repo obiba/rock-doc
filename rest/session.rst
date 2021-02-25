@@ -339,7 +339,8 @@ List
 
     [
       {
-        "id": "810cfda6-d0f5-472e-8796-0ce6905499d8-1",
+        "id": "1",
+        "sessionId": "810cfda6-d0f5-472e-8796-0ce6905499d8",
         "status": "COMPLETED",
         "finished": true,
         "createdDate": "2021-02-24T17:55:59.133+00:00",
@@ -350,7 +351,8 @@ List
         "script": "R.version"
       },
       {
-        "id": "810cfda6-d0f5-472e-8796-0ce6905499d8-2",
+        "id": "2",
+        "sessionId": "810cfda6-d0f5-472e-8796-0ce6905499d8",
         "status": "COMPLETED",
         "finished": true,
         "createdDate": "2021-02-24T17:57:03.129+00:00",
@@ -399,7 +401,7 @@ Status
 
   .. sourcecode:: shell
 
-    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/810cfda6-d0f5-472e-8796-0ce6905499d8-1
+    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/1
 
   Using R (`rockr <https://github.com/obiba/rockr>`_)
 
@@ -418,7 +420,8 @@ Status
     HTTP/1.1 200 OK
 
     {
-      "id": "810cfda6-d0f5-472e-8796-0ce6905499d8-1",
+      "id": "1",
+      "sessionId": "810cfda6-d0f5-472e-8796-0ce6905499d8",
       "status": "COMPLETED",
       "finished": true,
       "createdDate": "2021-02-24T17:55:59.133+00:00",
@@ -466,7 +469,7 @@ Remove
 
   .. sourcecode:: shell
 
-    curl --user user:password -X DELETE https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/810cfda6-d0f5-472e-8796-0ce6905499d8-1
+    curl --user user:password -X DELETE https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/1
 
   Using R (`rockr <https://github.com/obiba/rockr>`_)
 
@@ -502,7 +505,7 @@ Result
 
   .. sourcecode:: shell
 
-    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/810cfda6-d0f5-472e-8796-0ce6905499d8-1/result?wait=true
+    curl --user user:password https://rock-demo.obiba.org/r/session/810cfda6-d0f5-472e-8796-0ce6905499d8/command/1/result?wait=true
 
   Using R (`rockr <https://github.com/obiba/rockr>`_)
 
