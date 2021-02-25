@@ -14,6 +14,8 @@ Property                  Description
 ``server.port``           HTTP port number. Generally speaking this port should not be exposed to the web. Use proxy instead (Apache2, Nginx, etc.).
 ========================= ==================
 
+Details about the ``server.*`` properties can be found in the official `Spring Boot - Server Properties <https://docs.spring.io/spring-boot/docs/2.4.3/reference/html/appendix-application-properties.html#common-application-properties-server>`_ documentation. More specifically, the ``server.ssl.*`` properties allows to setup a HTTPS communication channel (default is HTTP). Note also that Rock uses Jetty as the internal web server.
+
 Cluster Node Configuration
 --------------------------
 
