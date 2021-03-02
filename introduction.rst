@@ -45,7 +45,7 @@ In order to balance the load appropriately, Rock allows to group server instance
   :scale: 50 %
   :alt: Rock horizontal scalability
 
-  Adding more Rock servers and balance the load to scale R services horizontally.
+  Add more Rock servers and balance the load to scale R services horizontally.
 
 Distributed Computing
 ---------------------
