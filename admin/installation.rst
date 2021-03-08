@@ -117,7 +117,8 @@ Environment Variable              Description
 ``ROCK_USER_NAME``                Regular user name, optional and set at first start.
 ``ROCK_USER_PASSWORD``            Regular user password, optional and set at first start.
 ``ROCK_ID``                       Rock node ID. Make sure it is unique in the cluster.
-``ROCK_TAGS``                     Comma separated tag names, used to build clusters. Default tag list is "default".
+``ROCK_CLUSTER``                  Cluster of R servers name. Default is "default".
+``ROCK_TAGS``                     Comma separated tag names, optional. Default tag list is empty.
 ================================= =========================================================================
 
 Upgrade
