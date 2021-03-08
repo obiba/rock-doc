@@ -25,7 +25,9 @@ Rock server identification, required when clusters are built.
 Property                  Description
 ========================= ==================
 ``node.id``               Rock server unique identifier, unique in the cluster.
-``node.tags``             Comma separated tag names, used to build clusters. Default tag list is "default".
+``node.cluster``          Name of the cluster to which the R server belongs. Default is "default".
+``node.tags``             Comma separated tag names, for informative purpose.
+``node.server``           Public URL of this R server, required for self-registration only.
 ========================= ==================
 
 .. _consul-config:
@@ -67,6 +69,7 @@ Property                  Description
 ========================= ==================
 ``r.exec``                File path to the R executable.
 ``r.repos``               Comma separated list of URLs to R CRAN repositories, to install packages.
+``r.sessionTimeout``      Managed R sessions timeout, in minutes. Any R sessions without activity during this laps of time will be removed automatically. Default is ``240`` (4 hours). If the value is <0 no timeout action is applied.
 ========================= ==================
 
 Users Configuration
