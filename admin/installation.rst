@@ -85,8 +85,7 @@ A typical `docker-compose <https://docs.docker.com/compose/>`_ file would be:
   version: '3'
   services:
     rock:
-      #image: obiba/rock:snapshot
-      build: .
+      image: obiba/rock:latest
       ports:
         - ${PORT}:8085
       environment:
