@@ -96,6 +96,7 @@ A typical `docker-compose <https://docs.docker.com/compose/>`_ file would be:
         - ROCK_USER_NAME=${ROCK_USER_NAME}
         - ROCK_USER_PASSWORD=${ROCK_USER_PASSWORD}
         - ROCK_ID=${ROCK_ID}
+        - ROCK_CLUSTER=${ROCK_CLUSTER}
         - ROCK_TAGS=${ROCK_TAGS}
         # for self-registration
         #- ROCK_SERVER=${ROCK_SERVER}
