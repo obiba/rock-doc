@@ -85,8 +85,7 @@ A typical `docker-compose <https://docs.docker.com/compose/>`_ file would be:
   version: '3'
   services:
     rock:
-      #image: obiba/rock:snapshot
-      build: .
+      image: obiba/rock:latest
       ports:
         - ${PORT}:8085
       environment:
@@ -118,10 +117,11 @@ Environment Variable              Description
 ``ROCK_USER_NAME``                Regular user name, optional and set at first start.
 ``ROCK_USER_PASSWORD``            Regular user password, optional and set at first start.
 ``ROCK_ID``                       Rock node ID. Make sure it is unique in the cluster.
-``ROCK_TAGS``                     Comma separated tag names, used to build clusters. Default tag list is "default".
+``ROCK_CLUSTER``                  Cluster of R servers name. Default is “default”.
+``ROCK_TAGS``                     Comma separated tag names, optional. Default tag list is empty.
 ``ROCK_SERVER``                   Self-registration: Rock server public address that will be sent to service registries (including Opal).
-``ROCK_OPAL_SERVER``              Self-registration: Opal server address.
-``ROCK_OPAL_TOKEN``               Self-registration: `Opal's app registration token <https://opaldoc.obiba.org/en/latest/web-user-guide/administration/apps.html>`_.
+``ROCK_OPAL_SERVER``              Self-registration: Opal server address to register to.
+``ROCK_OPAL_TOKEN``               Self-registration: `Opal's app self-registration token <https://opaldoc.obiba.org/en/latest/web-user-guide/administration/apps.html>`_.
 ================================= =========================================================================
 
 Upgrade
