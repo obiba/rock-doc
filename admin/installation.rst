@@ -110,7 +110,7 @@ Then environment variables that are exposed by this image are:
 ================================= =========================================================================
 Environment Variable              Description
 ================================= =========================================================================
-``JAVA_OPTS``
+``JAVA_OPTS``                     JVM options.
 ``ROCK_ADMINISTRATOR_NAME``       Administrator user name, optional and set at first start.
 ``ROCK_ADMINISTRATOR_PASSWORD``   Administrator user password, optional and set at first start.
 ``ROCK_MANAGER_NAME``             Manager user name, optional and set at first start.
@@ -119,6 +119,9 @@ Environment Variable              Description
 ``ROCK_USER_PASSWORD``            Regular user password, optional and set at first start.
 ``ROCK_ID``                       Rock node ID. Make sure it is unique in the cluster.
 ``ROCK_TAGS``                     Comma separated tag names, used to build clusters. Default tag list is "default".
+``ROCK_SERVER``                   Self-registration: Rock server public address that will be sent to service registries (including Opal).
+``ROCK_OPAL_SERVER``              Self-registration: Opal server address.
+``ROCK_OPAL_TOKEN``               Self-registration: `Opal's app registration token <https://opaldoc.obiba.org/en/latest/web-user-guide/administration/apps.html>`_.
 ================================= =========================================================================
 
 Upgrade
