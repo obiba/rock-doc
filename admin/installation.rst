@@ -78,6 +78,8 @@ Docker Image Installation
 
 OBiBa is an early adopter of the `Docker <https://www.docker.com/>`_ technology, providing its own images from the `Docker Hub repository <https://hub.docker.com/orgs/obiba/repositories>`_.
 
+See also the Rock docker images that are DataSHIELD ready: `datashield/rock-base <https://hub.docker.com/r/datashield/rock-base>`_ 
+
 A typical `docker-compose <https://docs.docker.com/compose/>`_ file would be:
 
 .. code-block:: yaml
