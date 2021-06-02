@@ -78,7 +78,7 @@ Docker Image Installation
 
 OBiBa is an early adopter of the `Docker <https://www.docker.com/>`_ technology, providing its own images from the `Docker Hub repository <https://hub.docker.com/orgs/obiba/repositories>`_.
 
-See also the Rock docker images that are DataSHIELD ready: `datashield/rock-base <https://hub.docker.com/r/datashield/rock-base>`_ 
+See also the Rock docker images that are DataSHIELD ready: `datashield/rock-base <https://hub.docker.com/r/datashield/rock-base>`_
 
 A typical `docker-compose <https://docs.docker.com/compose/>`_ file would be:
 
@@ -126,6 +126,10 @@ Environment Variable              Description
 ``ROCK_OPAL_SERVER``              Self-registration: Opal server address to register to.
 ``ROCK_OPAL_TOKEN``               Self-registration: `Opal's app self-registration token <https://opaldoc.obiba.org/en/latest/web-user-guide/administration/apps.html>`_.
 ================================= =========================================================================
+
+.. note::
+
+  When no valid user is defined, the default user setup is applied: user ``administrator`` with password ``password`` (with administrator role).
 
 Upgrade
 -------

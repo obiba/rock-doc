@@ -81,6 +81,10 @@ Property                  Description
 ``security.users``        List of users, with attributes ``id`` (user name), ``secret`` (user password) and ``roles`` (comma separated list of role names: ``administrator``, ``manager`` or ``user``).
 ========================= ==================
 
+.. note::
+
+  When no valid user is defined, the default user setup is applied: user ``administrator`` with password ``password`` (with administrator role).
+
 .. _config-apparmor:
 
 AppArmor Configuration
