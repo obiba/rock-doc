@@ -97,4 +97,5 @@ Property                        Description
 =============================== ==================
 ``security.apparmor.enabled``   Enable/disable the RAppArmor functionality.
 ``security.apparmor.profile``   The name the AppArmor profile to apply on R session creation.
+``security.apparmor.strict``    Whether the AppArmor profile is to be applied to the administrator as well. Default is ``true``.
 =============================== ==================
