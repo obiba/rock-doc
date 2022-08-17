@@ -87,7 +87,7 @@ Property                  Description
 
   When no valid user is defined, the default user setup is applied: user ``administrator`` with password ``password`` (with administrator role).
 
-The user passwords can be hashed, using the `Bcrypt <https://en.wikipedia.org/wiki/Bcrypt>`_ algorithm. In this case, the hashed password will be preceded by the prefix **{bcrypt}**. Make sure also to quote the **secret** value so that the $ signs do not get interpreted. The are many bcrypt hashers available online, for instance `bcrypt.online <https://bcrypt.online/>`_. As an example:
+The user passwords can be hashed, using the `Bcrypt <https://en.wikipedia.org/wiki/Bcrypt>`_ algorithm. In this case, the hashed password will be preceded by the prefix **{bcrypt}**. Make sure also to quote the **secret** value so that the $ signs do not get interpreted. There are many bcrypt hashers available online, for instance `bcrypt.online <https://bcrypt.online/>`_. As an example:
 
 .. code-block:: yaml
 
