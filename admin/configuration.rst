@@ -113,3 +113,8 @@ Property                        Description
 ``security.apparmor.profile``   The name the AppArmor profile to apply on R session creation.
 ``security.apparmor.strict``    Whether the AppArmor profile is to be applied to the administrator as well. Default is ``true``.
 =============================== ==================
+
+R Configuration
+---------------
+
+The file **ROCK_HOME/conf/Rprofile.R** will be executed when the R server main process is started. For an enhanced security (mainly for protecting the server from abusive usage), you can limit the host's resources usage with the `unix R package and its rlimit functions <https://rdrr.io/cran/unix/man/rlimit.html>`_.
