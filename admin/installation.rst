@@ -21,9 +21,9 @@ Server Software Requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ======== ================= ========================================================== ========================
-Software Suggested version Download link                                              Usage
+Software Version           Download link                                              Usage
 ======== ================= ========================================================== ========================
-Java     >= 1.8.x          `Java Oracle downloads <https://www.java.com>`_            Java runtime environment
+Java     21                `OpenJDK downloads <https://jdk.java.net/>`_               Java runtime environment
 R        any version       `R project <https://www.r-project.org/>`_                  R server engine
 ======== ================= ========================================================== ========================
 
