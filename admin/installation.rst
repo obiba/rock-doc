@@ -125,6 +125,7 @@ Environment Variable              Description
 ``ROCK_SERVER``                   Self-registration: Rock server public address that will be sent to service registries (including Opal).
 ``ROCK_OPAL_SERVER``              Self-registration: Opal server address to register to.
 ``ROCK_OPAL_TOKEN``               Self-registration: `Opal's app self-registration token <https://opaldoc.obiba.org/en/latest/web-user-guide/administration/apps.html>`_.
+``ROCK_SECURITY_ENABLED``         Enable or disable security features. Default is “false”.
 ================================= =========================================================================
 
 .. note::
